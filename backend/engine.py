@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field
 import networkx as nx
 from langchain_mistralai import ChatMistralAI
 
-# --- Strict Pydantic Models for Structured Extraction ---
 class Entity(BaseModel):
     name: str = Field(description="Unique name or designation of the entity.")
     type: str = Field(description="Category (e.g., Organization, Concept, Event).")
@@ -31,7 +30,6 @@ class KnowledgePayload(BaseModel):
     relationships: List[Relationship]
     insights: List[ExtractedInsight]
 
-# --- Memory and State Storage Handler ---
 class MemoryWorkspace:
     def __init__(self, filename="workspace_store.json"):
         self.filename = filename
@@ -48,7 +46,6 @@ class MemoryWorkspace:
             else:
                 self.graph.add_node(node_key, label=ent.name, type=ent.type, description=ent.description)
 
-        # Insert or Update Directed Relationships
         for rel in payload.relationships:
             src = rel.source.strip().upper()
             tgt = rel.target.strip().upper()
@@ -83,10 +80,9 @@ class MemoryWorkspace:
             except: pass
 
 
-# --- Corrected LangChain AI Orchestration Engine ---
+#  Corrected LangChain AI Orchestration Engine 
 class AIWorkspaceEngine:
     def __init__(self):
-        # Initialize the LangChain chat model wrapper
         self.llm = ChatMistralAI(
             api_key=os.getenv("MISTRAL_API_KEY", ""),
             model="mistral-large-latest",
@@ -110,11 +106,9 @@ class AIWorkspaceEngine:
         {content}
         """
         
-        # FIX: Use LangChain's native structured output wrapper method to force Pydantic casting
         structured_llm = self.llm.with_structured_output(KnowledgePayload)
         parsed_payload = structured_llm.invoke(prompt)
         
-        # Update the network graph memory arrays incrementally
         self.workspace.update_workspace(parsed_payload, source_id)
         return {"status": "success", "source_id": source_id, "insights_count": len(parsed_payload.insights)}
 
@@ -135,6 +129,5 @@ class AIWorkspaceEngine:
         Provide a clean Markdown summary response with clear, scannable headers.
         """
         
-        # FIX: Use LangChain's native invoke method to request text outputs
         response = self.llm.invoke(prompt)
         return response.content
