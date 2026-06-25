@@ -83,7 +83,6 @@ export default function WorkspaceDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans">
-      {/* Upper Navigation Banner Header */}
       <header className="border-b border-slate-800 bg-slate-950 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Brain className="w-8 h-8 text-indigo-400" />
@@ -94,10 +93,8 @@ export default function WorkspaceDashboard() {
         </button>
       </header>
 
-      {/* Main Dashboard Interface Layout Canvas Splitter */}
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 overflow-hidden">
         
-        {/* Module Area 1: Ingestion System Frame */}
         <section className="p-4 border-r border-slate-800 flex flex-col gap-4 bg-slate-950/50 overflow-y-auto">
           <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
             <Search className="w-4 h-4" /> Workflow 1: Research Autonomous Mode
@@ -176,7 +173,6 @@ export default function WorkspaceDashboard() {
           </div>
         </section>
 
-        {/* Module Area 2: Core Structural Matrix Knowledge Explorer */}
         <section className="p-4 border-r border-slate-800 flex flex-col overflow-y-auto">
           <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2 mb-4">
             <Layers className="w-4 h-4" /> Mandatory Knowledge Graph Structures
@@ -219,7 +215,6 @@ export default function WorkspaceDashboard() {
           </div>
         </section>
 
-        {/* Module Area 3: Knowledge Augmented RAG Conversation Console */}
         <section className="p-4 flex flex-col bg-slate-950/20 h-full overflow-hidden">
           <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2 mb-4">
             <MessageSquare className="w-4 h-4" /> Workflow 2: Knowledge-Augmented Chat
