@@ -19,7 +19,7 @@ export default function WorkspaceDashboard() {
 
   const fetchWorkspaceState = async () => {
     try {
-      const res = await fetch(`${API_BASE}/workspace`);
+      const res = await fetch(`${API_BASE}/api/workspace`);
       const data = await res.json();
       setGraphData(data.graph || { nodes: [], edges: [] });
       setInsights(data.insights || []);
@@ -41,12 +41,12 @@ export default function WorkspaceDashboard() {
         formData.append('topic', topic);
         formData.append('file', file);
 
-        await fetch(`${API_BASE}/research/file`, {
+        await fetch(`${API_BASE}/api/research/file`, {
           method: 'POST',
           body: formData,
         });
       } else {
-        await fetch(`${API_BASE}/research`, {
+        await fetch(`${API_BASE}/api/research`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ topic, content }),
@@ -69,7 +69,7 @@ export default function WorkspaceDashboard() {
     setChatInput('');
     
     try {
-      const res = await fetch(`${API_BASE}/chat`, {
+      const res = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: currentInput }),
