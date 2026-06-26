@@ -32,36 +32,58 @@ export default function WorkspaceDashboard() {
     fetchWorkspaceState(); 
   }, []);
 
-  const handleTriggerResearch = async () => {
-    if (!topic || (!content && !file)) return;
-    setLoading(true);
-    try {
-      if (file) {
-        const formData = new FormData();
-        formData.append('topic', topic);
-        formData.append('file', file);
+ const handleTriggerResearch = async () => {
+  if (!topic || (!content && !file)) return;
 
-        await fetch(`${API_BASE}/api/research/file`, {
-          method: 'POST',
-          body: formData,
-        });
-      } else {
-        await fetch(`${API_BASE}/api/research`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ topic, content }),
-        });
-      }
-      setTopic(''); 
-      setContent(''); 
-      setFile(null);
-      await fetchWorkspaceState();
-    } catch (err) { 
-      alert('Research execution failed.'); 
+  setLoading(true);
+
+  try {
+    let res: Response;
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("topic", topic);
+      formData.append("file", file);
+
+      res = await fetch(`${API_BASE}/api/research/file`, {
+        method: "POST",
+        body: formData,
+      });
+    } else {
+      res = await fetch(`${API_BASE}/api/research`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic,
+          content,
+        }),
+      });
     }
-    setLoading(false);
-  };
 
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error(data);
+      alert(data.detail || "Research execution failed");
+      return;
+    }
+
+    console.log(data);
+
+    setTopic("");
+    setContent("");
+    setFile(null);
+
+    await fetchWorkspaceState();
+  } catch (err) {
+    console.error(err);
+    alert("Network Error");
+  } finally {
+    setLoading(false);
+  }
+};
   const handleSendChatMessage = async () => {
     if (!chatInput || !chatInput.trim()) return;
     const currentInput = chatInput;
