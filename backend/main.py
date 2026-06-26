@@ -32,6 +32,13 @@ class ResearchRequest(BaseModel):
 class ChatRequest(BaseModel):
     message: str
 
+@app.get("/")
+async def root():
+    return {
+        "status": "success",
+        "message": "AI-Native Workspace Backend is running "
+    }
+
 @app.post("/api/research")
 async def run_research(payload: ResearchRequest):
     try:
