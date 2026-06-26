@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Brain, Search, MessageSquare, Layers, Send, RefreshCw } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'https://ai-native-workspace.onrender.com';
 
 export default function WorkspaceDashboard() {
   // Application Ingestion/Chat States
