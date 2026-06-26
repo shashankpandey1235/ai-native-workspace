@@ -36,6 +36,11 @@ class MemoryWorkspace:
         self.graph = nx.DiGraph()
         self.insights = []
         self.load()
+        
+    def clear(self):
+        self.graph.clear()
+        self.insights = []
+        self.save()
 
     def update_workspace(self, payload: KnowledgePayload, source_id: str):
         # Insert or Update Entities
@@ -108,7 +113,8 @@ class AIWorkspaceEngine:
         
         structured_llm = self.llm.with_structured_output(KnowledgePayload)
         parsed_payload = structured_llm.invoke(prompt)
-        
+        self.workspace.clear()
+
         self.workspace.update_workspace(parsed_payload, source_id)
         return {"status": "success", "source_id": source_id, "insights_count": len(parsed_payload.insights)}
 
